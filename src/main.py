@@ -19,6 +19,9 @@ import main_screen
 
 task_handler.TaskHandler()
 
+# Display the appropriate initial screen based on device configuration
+main_screen.display_initial_screen()
+
 
 
 
