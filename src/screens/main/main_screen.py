@@ -12,6 +12,29 @@ def show_main_screen():
     label.set_text("Main Screen")
     label.center()
 
+def get_last_selected_system_and_tool():
+    """Get the last selected system and tool from user settings"""
+    try:
+        with open('/workspace/rpmsim/src/db/user_settings.json', 'r') as f:
+            settings = ujson.loads(f.read())
+            if 'last_selected_system' in settings and settings['last_selected_system']:
+                return settings['last_selected_system'], settings.get('last_selected_tool', None)
+    except:
+        pass
+    return None, None
+
+def display_last_selected_screen():
+    """Display the last selected system screen"""
+    system_name, tool_name = get_last_selected_system_and_tool()
+    if system_name:
+        scr = lv.screen()
+        title_label = lv.label(scr)
+        text = f"Last Selected: {system_name}"
+        if tool_name:
+            text += f" - Tool: {tool_name}"
+        title_label.set_text(text)
+        title_label.center()
+
 def is_device_configured():
     """Check if the device has been configured with WiFi settings"""
     try:
@@ -27,6 +50,6 @@ def display_initial_screen():
         # Show WiFi setup screen if device is not configured
         wifi_screen = create_wifi_setup_screen()
     else:
-        # Otherwise, show the main screen
-        show_main_screen()
+        # Display last selected system screen
+        display_last_selected_screen()
 

@@ -1,8 +1,12 @@
-
 {
-    "last_selected_system": null,
-    "wifi": {
-        "ssid": null,
-        "password": null
+    "last_selected_system": "Engine Control Unit",
+    "last_selected_tool": "Diagnostic Tool",
+    "wifi_configuration": {
+        "ssid": "Network1",
+        "password": "password123"
+    },
+    "user_preferences": {
+        "theme": "light",
+        "language": "en"
     }
 }
