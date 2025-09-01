@@ -1,0 +1,14 @@
+# Requirements for the RPM Simulation Environment
+
+# MicroPython (we'll need to install this separately as it's not available on PyPI)
+# LVGL - Not installed via pip, follow platform-specific instructions:
+#   For Linux: sudo apt-get install liblvgl-dev
+#   For Windows/Mac: Follow instructions at https://lvgl.io/master/get-started/platforms
+
+# SDL bindings for Python
+sdl2
+pysdl2
+
+# Other dependencies that might be useful
+numpy
+pygame

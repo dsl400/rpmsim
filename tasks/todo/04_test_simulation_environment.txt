@@ -1,0 +1,23 @@
+
+
+
+
+Task: Test the simulation environment
+
+Description:
+Test that the simulation environment works correctly by running main_sim.py.
+
+Steps to complete:
+1. Activate the virtual environment
+2. Run main_sim.py from the command line
+3. Verify that the SDL window appears with the correct title and dimensions
+4. Check that hardware mocks are working as expected
+
+User acceptance criteria:
+- Running main_sim.py should launch an SDL window with the title "Simulator (MicroPython)"
+- The window should have dimensions 480x272 pixels
+- No errors should occur during execution
+
+
+
+
