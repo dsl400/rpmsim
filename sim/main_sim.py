@@ -1,7 +1,5 @@
-
 import lvgl as lv
-import sdl
-from sim.hardware import WifiMock, FileSystemMock
+from hardware.hardware import WifiMock, FileSystemMock
 
 def setup_simulation():
     """Set up the simulation environment with display and hardware mocks."""

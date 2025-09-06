@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# AppRun script for RPM Simulator
+# Sets up environment and runs MicroPython with LVGL
+
+APPDIR="$(dirname "$(readlink -f "$0")")"
+
+# Set library path
+export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+
+# Set Python path for MicroPython modules
+export MICROPYPATH="$APPDIR/usr/share:$MICROPYPATH"
+
+# Set SDL video driver (prefer X11)
+export SDL_VIDEODRIVER="${SDL_VIDEODRIVER:-x11}"
+
+# Disable SDL audio if not needed (reduces dependencies)
+export SDL_AUDIODRIVER=dummy
+
+# Set OpenGL vendor library for better compatibility
+export __GLX_VENDOR_LIBRARY_NAME=mesa
+
+# Run MicroPython with LVGL
+if [ $# -eq 0 ]; then
+    # No arguments - check for default script
+    if [ -f "$APPDIR/usr/share/main.py" ]; then
+        exec "$APPDIR/usr/bin/micropython-lvgl" "$APPDIR/usr/share/main.py"
+    else
+        # Run interactive mode
+        echo "RPM Simulator - MicroPython with LVGL"
+        echo "Usage: $0 [script.py]"
+        echo "Starting interactive mode..."
+        exec "$APPDIR/usr/bin/micropython-lvgl"
+    fi
+else
+    # Run with provided arguments
+    exec "$APPDIR/usr/bin/micropython-lvgl" "$@"
+fi

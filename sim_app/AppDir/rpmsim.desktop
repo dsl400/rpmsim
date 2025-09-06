@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=RPM Simulator
+Comment=ESP32S3 RPM Signal Generator Simulator
+Exec=AppRun
+Icon=rpmsim
+Categories=Development;Engineering;Electronics;
+Terminal=false
+StartupNotify=true
+MimeType=text/x-python;
+Keywords=RPM;Simulator;ESP32;MicroPython;LVGL;Automotive;

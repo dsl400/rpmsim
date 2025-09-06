@@ -6,7 +6,6 @@
 #   For Windows/Mac: Follow instructions at https://lvgl.io/master/get-started/platforms
 
 # SDL bindings for Python
-sdl2
 pysdl2
 
 # Other dependencies that might be useful

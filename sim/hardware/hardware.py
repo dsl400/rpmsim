@@ -1,6 +1,6 @@
 
-// Placeholder for hardware simulation
-// This will contain mock implementations of ESP32S3 hardware components
+# // Placeholder for hardware simulation
+# // This will contain mock implementations of ESP32S3 hardware components
 
 class WifiMock:
     def __init__(self):
