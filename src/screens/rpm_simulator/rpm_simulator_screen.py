@@ -15,6 +15,8 @@ class RPMSimulatorScreen(BaseScreen):
         self.current_rpm = 800  # Default idle RPM
         self.simulation_active = False
         self.update_timer = None
+        self.camshaft_enabled = True  # Camshaft signal enabled by default
+        self.crankshaft_enabled = True  # Crankshaft signal enabled by default
         super().__init__(scr)
 
     def create_ui(self):
@@ -66,10 +68,35 @@ class RPMSimulatorScreen(BaseScreen):
 
     def create_control_buttons(self):
         """Create RPM control buttons"""
+        # Bottom row controls - all on the same line
+        bottom_y = -20  # Distance from bottom
+
+        # Camshaft toggle button (bottom left)
+        self.widgets['cam_toggle_btn'] = lv.button(self.scr)
+        self.widgets['cam_toggle_btn'].set_size(80, 40)
+        self.widgets['cam_toggle_btn'].align(lv.ALIGN.BOTTOM_LEFT, 20, bottom_y)
+        self.widgets['cam_toggle_btn'].set_style_border_width(2, 0)
+        self.widgets['cam_toggle_btn'].set_style_radius(5, 0)
+        self.widgets['cam_toggle_label'] = lv.label(self.widgets['cam_toggle_btn'])
+        self.widgets['cam_toggle_label'].set_text("CAM")
+        self.widgets['cam_toggle_label'].center()
+        self.widgets['cam_toggle_btn'].add_event_cb(self.on_cam_toggle, lv.EVENT.CLICKED, None)
+
+        # Crankshaft toggle button (bottom center-left)
+        self.widgets['crank_toggle_btn'] = lv.button(self.scr)
+        self.widgets['crank_toggle_btn'].set_size(80, 40)
+        self.widgets['crank_toggle_btn'].align(lv.ALIGN.BOTTOM_LEFT, 110, bottom_y)
+        self.widgets['crank_toggle_btn'].set_style_border_width(2, 0)
+        self.widgets['crank_toggle_btn'].set_style_radius(5, 0)
+        self.widgets['crank_toggle_label'] = lv.label(self.widgets['crank_toggle_btn'])
+        self.widgets['crank_toggle_label'].set_text("CRANK")
+        self.widgets['crank_toggle_label'].center()
+        self.widgets['crank_toggle_btn'].add_event_cb(self.on_crank_toggle, lv.EVENT.CLICKED, None)
+
         # Start/Stop button (bottom right, with play/stop icons and contour)
         self.widgets['start_stop_btn'] = lv.button(self.scr)
         self.widgets['start_stop_btn'].set_size(60, 60)
-        self.widgets['start_stop_btn'].align(lv.ALIGN.BOTTOM_RIGHT, -20, -20)
+        self.widgets['start_stop_btn'].align(lv.ALIGN.BOTTOM_RIGHT, -20, bottom_y)
         self.widgets['start_stop_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)
         self.widgets['start_stop_btn'].set_style_border_width(2, 0)  # Add contour
         self.widgets['start_stop_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Darker green border
@@ -77,7 +104,10 @@ class RPMSimulatorScreen(BaseScreen):
         self.widgets['start_stop_label'] = lv.label(self.widgets['start_stop_btn'])
         self.widgets['start_stop_label'].center()
         self.widgets['start_stop_btn'].add_event_cb(self.on_start_stop_click, lv.EVENT.CLICKED, None)
+
+        # Update all button states
         self.update_start_stop_button()
+        self.update_toggle_buttons()
 
     def update_rpm_display(self):
         """Update the RPM display"""
@@ -96,6 +126,50 @@ class RPMSimulatorScreen(BaseScreen):
             self.widgets['start_stop_label'].set_text(lv.SYMBOL.PLAY)  # Play icon
             self.widgets['start_stop_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)  # Green
             self.widgets['start_stop_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Darker green border
+
+    def update_toggle_buttons(self):
+        """Update toggle button states"""
+        # Update camshaft button
+        if self.camshaft_enabled:
+            self.widgets['cam_toggle_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)  # Green
+            self.widgets['cam_toggle_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Dark green border
+        else:
+            self.widgets['cam_toggle_btn'].set_style_bg_color(lv.color_hex(0x9E9E9E), 0)  # Gray
+            self.widgets['cam_toggle_btn'].set_style_border_color(lv.color_hex(0x616161), 0)  # Dark gray border
+
+        # Update crankshaft button
+        if self.crankshaft_enabled:
+            self.widgets['crank_toggle_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)  # Green
+            self.widgets['crank_toggle_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Dark green border
+        else:
+            self.widgets['crank_toggle_btn'].set_style_bg_color(lv.color_hex(0x9E9E9E), 0)  # Gray
+            self.widgets['crank_toggle_btn'].set_style_border_color(lv.color_hex(0x616161), 0)  # Dark gray border
+
+    def on_cam_toggle(self, event):
+        """Handle camshaft toggle button click"""
+        try:
+            self.camshaft_enabled = not self.camshaft_enabled
+            self.update_toggle_buttons()
+
+            # Update ECU simulation if active
+            if self.simulation_active and app_state.ecu_manager:
+                app_state.ecu_manager.set_camshaft_signal(self.camshaft_enabled)
+
+        except Exception as e:
+            print(f"Camshaft toggle error: {e}")
+
+    def on_crank_toggle(self, event):
+        """Handle crankshaft toggle button click"""
+        try:
+            self.crankshaft_enabled = not self.crankshaft_enabled
+            self.update_toggle_buttons()
+
+            # Update ECU simulation if active
+            if self.simulation_active and app_state.ecu_manager:
+                app_state.ecu_manager.set_crankshaft_signal(self.crankshaft_enabled)
+
+        except Exception as e:
+            print(f"Crankshaft toggle error: {e}")
 
 
 
