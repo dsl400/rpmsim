@@ -1,0 +1,114 @@
+{
+  "systems": [
+    {
+      "brand": "VW",
+      "type": "Engine",
+      "system_name": "Bosch ME7.9.7",
+      "tools": [
+        {
+          "name": "RPM Simulator",
+          "type": "rpm",
+          "config": {
+            "crank": {
+              "degrees_per_tooth": 6,
+              "missing_teeth": 2,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+            },
+            "cam": {
+              "degrees_per_tooth": 12,
+              "tooth_pattern": [1,1,1,1,1,1,0,1,1,1,1,1]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "brand": "BMW",
+      "type": "Engine",
+      "system_name": "Siemens MSV70",
+      "tools": [
+        {
+          "name": "RPM Simulator",
+          "type": "rpm",
+          "config": {
+            "crank": {
+              "degrees_per_tooth": 6,
+              "missing_teeth": 2,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+            },
+            "cam": {
+              "degrees_per_tooth": 15,
+              "tooth_pattern": [1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "brand": "Mercedes",
+      "type": "ABS",
+      "system_name": "Bosch ESP 8.0",
+      "tools": [
+        {
+          "name": "RPM Simulator",
+          "type": "rpm",
+          "config": {
+            "crank": {
+              "degrees_per_tooth": 6,
+              "missing_teeth": 2,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+            },
+            "cam": {
+              "degrees_per_tooth": 12,
+              "tooth_pattern": [1,1,1,1,1,1,0,1,1,1,1,1]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "brand": "Audi",
+      "type": "Transmission",
+      "system_name": "ZF 8HP",
+      "tools": [
+        {
+          "name": "RPM Simulator",
+          "type": "rpm",
+          "config": {
+            "crank": {
+              "degrees_per_tooth": 6,
+              "missing_teeth": 2,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+            },
+            "cam": {
+              "degrees_per_tooth": 12,
+              "tooth_pattern": [1,1,1,1,1,1,0,1,1,1,1,1]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "brand": "Ford",
+      "type": "Engine",
+      "system_name": "EcoBoost 2.0L",
+      "tools": [
+        {
+          "name": "RPM Simulator",
+          "type": "rpm",
+          "config": {
+            "crank": {
+              "degrees_per_tooth": 10,
+              "missing_teeth": 1,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0]
+            },
+            "cam": {
+              "degrees_per_tooth": 20,
+              "tooth_pattern": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
