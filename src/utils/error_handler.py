@@ -72,7 +72,33 @@ class ErrorHandler:
             else:
                 message = f"Error: {str(error)}"
 
-            dialog = lv.msgbox(current_screen, title_text, message, ["OK"], False)
+            # Create simple message box with text only
+            dialog = lv.obj(current_screen)
+            dialog.set_size(300, 150)
+            dialog.center()
+            dialog.set_style_bg_color(lv.color_hex(0xFFFFFF), 0)
+            dialog.set_style_border_width(2, 0)
+            dialog.set_style_radius(10, 0)
+
+            # Add title
+            title_label = lv.label(dialog)
+            title_label.set_text(title_text)
+            title_label.align(lv.ALIGN.TOP_MID, 0, 10)
+
+            # Add message
+            msg_label = lv.label(dialog)
+            msg_label.set_text(message)
+            msg_label.align(lv.ALIGN.CENTER, 0, 0)
+            msg_label.set_style_text_align(lv.TEXT_ALIGN.CENTER, 0)
+
+            # Add OK button
+            ok_btn = lv.button(dialog)
+            ok_btn.set_size(80, 30)
+            ok_btn.align(lv.ALIGN.BOTTOM_MID, 0, -10)
+            ok_label = lv.label(ok_btn)
+            ok_label.set_text("OK")
+            ok_label.center()
+            ok_btn.add_event_cb(lambda e: dialog.delete(), lv.EVENT.CLICKED, None)
             dialog.center()
             
         except Exception as e:
@@ -92,7 +118,33 @@ class ErrorHandler:
             if not current_screen:
                 return
             
-            dialog = lv.msgbox(current_screen, title, message, ["OK"], False)
+            # Create simple message box with text only
+            dialog = lv.obj(current_screen)
+            dialog.set_size(300, 150)
+            dialog.center()
+            dialog.set_style_bg_color(lv.color_hex(0xFFFFFF), 0)
+            dialog.set_style_border_width(2, 0)
+            dialog.set_style_radius(10, 0)
+
+            # Add title
+            title_label = lv.label(dialog)
+            title_label.set_text(title)
+            title_label.align(lv.ALIGN.TOP_MID, 0, 10)
+
+            # Add message
+            msg_label = lv.label(dialog)
+            msg_label.set_text(message)
+            msg_label.align(lv.ALIGN.CENTER, 0, 0)
+            msg_label.set_style_text_align(lv.TEXT_ALIGN.CENTER, 0)
+
+            # Add OK button
+            ok_btn = lv.button(dialog)
+            ok_btn.set_size(80, 30)
+            ok_btn.align(lv.ALIGN.BOTTOM_MID, 0, -10)
+            ok_label = lv.label(ok_btn)
+            ok_label.set_text("OK")
+            ok_label.center()
+            ok_btn.add_event_cb(lambda e: dialog.delete(), lv.EVENT.CLICKED, None)
             dialog.center()
             
         except Exception as e:
@@ -111,7 +163,33 @@ class ErrorHandler:
             if not current_screen:
                 return
             
-            dialog = lv.msgbox(current_screen, title, message, ["OK"], False)
+            # Create simple message box with text only
+            dialog = lv.obj(current_screen)
+            dialog.set_size(300, 150)
+            dialog.center()
+            dialog.set_style_bg_color(lv.color_hex(0xFFFFFF), 0)
+            dialog.set_style_border_width(2, 0)
+            dialog.set_style_radius(10, 0)
+
+            # Add title
+            title_label = lv.label(dialog)
+            title_label.set_text(title)
+            title_label.align(lv.ALIGN.TOP_MID, 0, 10)
+
+            # Add message
+            msg_label = lv.label(dialog)
+            msg_label.set_text(message)
+            msg_label.align(lv.ALIGN.CENTER, 0, 0)
+            msg_label.set_style_text_align(lv.TEXT_ALIGN.CENTER, 0)
+
+            # Add OK button
+            ok_btn = lv.button(dialog)
+            ok_btn.set_size(80, 30)
+            ok_btn.align(lv.ALIGN.BOTTOM_MID, 0, -10)
+            ok_label = lv.label(ok_btn)
+            ok_label.set_text("OK")
+            ok_label.center()
+            ok_btn.add_event_cb(lambda e: dialog.delete(), lv.EVENT.CLICKED, None)
             dialog.center()
             
         except Exception as e:

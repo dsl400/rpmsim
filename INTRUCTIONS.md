@@ -1,0 +1,2 @@
+- in the system selection scren the back button should be placed on the right container and the list should fill the left container
+- in the wifi close button still does not work

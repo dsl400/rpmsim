@@ -112,11 +112,24 @@
 - **Regression Testing**: Ensure new changes don't break existing functionality
 
 ### Test Structure
-- All UI tests located in `./test/ui/` directory
+- **UI Tests**: Located in `./test/ui/` directory for screen-specific UI testing
+- **Unit Tests**: Located in `./test/unit/` directory for individual component testing
+- **Integration Tests**: Located in `./test/integration/` directory for full workflow testing
 - Each screen has dedicated test file (e.g., `test_main_screen.py`)
 - Common testing utilities in `./test/ui/utils/`
-- Test runner for executing complete test suite
+- Test runner for executing complete test suite located in `./test/`
 - Test reports with coverage metrics
+- **Rule**: All test files must be organized in appropriate subdirectories, no test files in project root
+
+### Quality Assurance Protocol
+**CRITICAL**: Before considering ANY task complete:
+1. Execute the full automated test suite
+2. Perform comprehensive manual UI testing
+3. Verify all existing functionality still works
+4. Confirm no new bugs were introduced
+5. Validate all callback functions work correctly
+6. Take screenshots of all UI states for documentation
+7. Check for any modifications in the PRD (especially search for modifications or new file  INSTRUCTIONS.md in the project folder at any level) or specifications that need to be addressed and repeat the cycle of implementing and testing
 
 ### Test Examples
 - **Menu Interaction**: Click menu → verify menu visible → click menu item → verify navigation

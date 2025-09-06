@@ -98,8 +98,6 @@ def test_navigation():
         
     except Exception as e:
         print(f"✗ Navigation test failed: {e}")
-        import traceback
-        traceback.print_exc()
         return False
 
 if __name__ == "__main__":

@@ -190,13 +190,35 @@ class DataManager:
             brands.add(system.get("brand"))
         return sorted(list(brands))
     
+    def get_systems_for_brand(self, brand):
+        """
+        Get all systems for a specific brand
+
+        Args:
+            brand (str): Vehicle brand
+
+        Returns:
+            list: List of systems for the brand
+        """
+        systems_db = self.load_systems()
+        brand_systems = []
+        for system in systems_db.get("systems", []):
+            if system.get("brand") == brand:
+                brand_systems.append({
+                    'brand': system.get("brand"),
+                    'system': system.get("type"),
+                    'system_name': system.get("system_name"),
+                    'tools': system.get("tools", [])
+                })
+        return brand_systems
+
     def get_system_types(self, brand):
         """
         Get system types for a specific brand
-        
+
         Args:
             brand (str): Vehicle brand
-            
+
         Returns:
             list: Sorted list of system types for the brand
         """

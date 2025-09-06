@@ -47,10 +47,18 @@ def main():
     # Import and register screens
     from screens.main_screen import MainScreen
     from screens.system_selection import SystemSelectionScreen
-    from utils.navigation_manager import nav_manager
+    from screens.wifi_setup import WifiSetupScreen
+    from screens.firmware_update import FirmwareUpdateScreen
+    from utils.navigation_manager import nav_manager, app_state
+
+    # Initialize app state
+    app_state.initialize()
+    print("App state initialized")
 
     # Register screens with navigation manager
     nav_manager.register_screen("system_selection", SystemSelectionScreen)
+    nav_manager.register_screen("wifi_setup", WifiSetupScreen)
+    nav_manager.register_screen("firmware_update", FirmwareUpdateScreen)
 
     # Get the active screen and use it directly
     main_scr = lv.screen_active()

@@ -22,12 +22,7 @@ import lvgl as lv
 from ui.utils.base_ui_test import BaseUITest
 from ui.utils.test_helpers import UITestHelpers
 
-# Import required modules for testing
-from utils.navigation_manager import NavigationManager, AppState, nav_manager, app_state
-from utils.data_manager import DataManager
-from utils.error_handler import ErrorHandler
-from screens.main_screen import MainScreen
-from screens.system_selection import SystemSelectionScreen
+# Import required modules for testing - moved to setup method to avoid import errors
 
 class MainScreenUITest(BaseUITest):
     """Test suite for Main Screen UI functionality"""
@@ -41,6 +36,13 @@ class MainScreenUITest(BaseUITest):
     def setup_test_environment(self):
         """Set up test environment with mock data"""
         try:
+            # Import required modules
+            from utils.navigation_manager import NavigationManager, AppState, nav_manager, app_state
+            from utils.data_manager import DataManager
+            from utils.error_handler import ErrorHandler
+            from screens.main_screen import MainScreen
+            from screens.system_selection import SystemSelectionScreen
+
             # Use global app_state instance and initialize it
             self.app_state = app_state
             if not hasattr(self.app_state, 'data_manager') or not self.app_state.data_manager:

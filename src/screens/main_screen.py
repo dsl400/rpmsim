@@ -170,13 +170,10 @@ class MainScreen(BaseScreen):
     def on_wifi_click(self, event):
         """Handle WiFi button click"""
         try:
-            # Show WiFi status or open WiFi settings
-            if app_state.wifi_manager and app_state.wifi_manager.is_connected():
-                error_handler.show_info_dialog("WiFi Connected", "Currently connected to WiFi network")
-            else:
-                error_handler.show_info_dialog("WiFi Disconnected", "WiFi is not connected")
+            # Navigate to WiFi setup screen
+            nav_manager.navigate_to("wifi_setup")
         except Exception as e:
-            error_handler.handle_error(e, "Failed to show WiFi status")
+            app_state.error_handler.handle_error(e, "Failed to open WiFi setup")
 
     def on_menu_click(self, event):
         """Handle menu button click"""
@@ -217,7 +214,19 @@ class MainScreen(BaseScreen):
             # Menu buttons (no title, more compact)
             btn_y = 10
 
-            # Check for Updates button (removed Select ECU System)
+            # Select ECU System button
+            select_ecu_btn = lv.button(menu_container)
+            select_ecu_btn.set_size(180, 35)
+            select_ecu_btn.align(lv.ALIGN.TOP_MID, 0, btn_y)
+            select_ecu_btn.set_style_bg_color(lv.color_hex(0x2196F3), 0)
+            select_ecu_label = lv.label(select_ecu_btn)
+            select_ecu_label.set_text("Select ECU System")
+            select_ecu_label.center()
+            select_ecu_btn.add_event_cb(lambda e: self.on_menu_select("select_ecu"), lv.EVENT.CLICKED, None)
+
+            btn_y += 45
+
+            # Check for Updates button
             update_btn = lv.button(menu_container)
             update_btn.set_size(180, 35)
             update_btn.align(lv.ALIGN.TOP_MID, 0, btn_y)
@@ -227,8 +236,11 @@ class MainScreen(BaseScreen):
             update_label.center()
             update_btn.add_event_cb(lambda e: self.on_menu_select("updates"), lv.EVENT.CLICKED, None)
 
+            # Update menu container height to accommodate buttons
+            menu_container.set_height(btn_y + 50)
+
         except Exception as e:
-            error_handler.handle_error(e, "Failed to show menu")
+            app_state.error_handler.handle_error(e, "Failed to show menu")
 
     def on_menu_background_click(self, event):
         """Handle click outside menu to close it"""
@@ -250,11 +262,11 @@ class MainScreen(BaseScreen):
             if action == "select_ecu":
                 nav_manager.navigate_to("system_selection")
             elif action == "updates":
-                # Navigate to firmware update screen (to be implemented)
-                error_handler.show_info_dialog("Firmware update feature coming soon!")
+                # Navigate to firmware update screen
+                nav_manager.navigate_to("firmware_update")
 
         except Exception as e:
-            error_handler.handle_error(e, f"Failed to handle menu action: {action}")
+            app_state.error_handler.handle_error(e, f"Failed to handle menu action: {action}")
 
     def on_enter(self):
         """Called when screen becomes active"""
