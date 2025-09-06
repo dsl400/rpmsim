@@ -22,21 +22,21 @@ class RPMSimulatorScreen(BaseScreen):
         # Title
         self.widgets['title'] = lv.label(self.scr)
         self.widgets['title'].set_text("RPM Simulator")
-        self.widgets['title'].align(lv.ALIGN.TOP_MID, 0, 10)
-        self.widgets['title'].set_style_text_font(lv.font_default(), 0)
+        self.widgets['title'].align(lv.ALIGN.TOP_MID, 0, 20)
 
         # RPM Display (large)
         self.widgets['rpm_display'] = lv.label(self.scr)
-        self.widgets['rpm_display'].align(lv.ALIGN.TOP_MID, 0, 50)
-        self.widgets['rpm_display'].set_style_text_font(lv.font_default(), 0)
+        self.widgets['rpm_display'].align(lv.ALIGN.TOP_MID, 0, 60)
+
         self.update_rpm_display()
 
         # RPM Slider
         self.widgets['rpm_slider'] = lv.slider(self.scr)
         self.widgets['rpm_slider'].set_size(400, 20)
         self.widgets['rpm_slider'].set_range(0, 8000)
-        self.widgets['rpm_slider'].set_value(self.current_rpm)
+        self.widgets['rpm_slider'].set_value(self.current_rpm, False)
         self.widgets['rpm_slider'].align(lv.ALIGN.TOP_MID, 0, 120)
+        # Enable slider event handling with improved error handling
         self.widgets['rpm_slider'].add_event_cb(self.on_slider_change, lv.EVENT.VALUE_CHANGED, None)
 
         # Slider labels
@@ -51,116 +51,74 @@ class RPMSimulatorScreen(BaseScreen):
         # Control buttons row
         self.create_control_buttons()
 
-        # Simulation status
-        self.widgets['status_label'] = lv.label(self.scr)
-        self.widgets['status_label'].align(lv.ALIGN.TOP_MID, 0, 250)
-        self.update_status_display()
-
-        # Configuration button
-        self.widgets['config_btn'] = lv.btn(self.scr)
-        self.widgets['config_btn'].set_size(200, 40)
+        # Configuration button (aligned with WiFi button vertically)
+        self.widgets['config_btn'] = lv.button(self.scr)
+        self.widgets['config_btn'].set_size(50, 50)
+        self.widgets['config_btn'].align(lv.ALIGN.TOP_RIGHT, -20, 5)  # Align with toolbar WiFi button (5px from top)
+        self.widgets['config_btn'].set_style_bg_color(lv.color_hex(0xFFFFFF), 0)  # White background
+        self.widgets['config_btn'].set_style_border_width(0, 0)  # No contour
+        self.widgets['config_btn'].set_style_shadow_width(0, 0)  # No shadow
         config_label = lv.label(self.widgets['config_btn'])
-        config_label.set_text("Sensor Configuration")
+        config_label.set_text(lv.SYMBOL.SETTINGS)  # Gear icon
+        config_label.set_style_text_color(lv.color_hex(0x666666), 0)  # Gray icon
         config_label.center()
-        self.widgets['config_btn'].align(lv.ALIGN.BOTTOM_MID, 0, -20)
         self.widgets['config_btn'].add_event_cb(self.on_config_click, lv.EVENT.CLICKED, None)
 
     def create_control_buttons(self):
         """Create RPM control buttons"""
-        button_y = 180
-        
-        # Decrease buttons
-        self.widgets['dec_100_btn'] = lv.btn(self.scr)
-        self.widgets['dec_100_btn'].set_size(80, 40)
-        dec_100_label = lv.label(self.widgets['dec_100_btn'])
-        dec_100_label.set_text("-100")
-        dec_100_label.center()
-        self.widgets['dec_100_btn'].align(lv.ALIGN.TOP_LEFT, 50, button_y)
-        self.widgets['dec_100_btn'].add_event_cb(lambda e: self.adjust_rpm(-100), lv.EVENT.CLICKED, None)
-
-        self.widgets['dec_10_btn'] = lv.btn(self.scr)
-        self.widgets['dec_10_btn'].set_size(80, 40)
-        dec_10_label = lv.label(self.widgets['dec_10_btn'])
-        dec_10_label.set_text("-10")
-        dec_10_label.center()
-        self.widgets['dec_10_btn'].align_to(self.widgets['dec_100_btn'], lv.ALIGN.OUT_RIGHT_MID, 10, 0)
-        self.widgets['dec_10_btn'].add_event_cb(lambda e: self.adjust_rpm(-10), lv.EVENT.CLICKED, None)
-
-        # Start/Stop button
-        self.widgets['start_stop_btn'] = lv.btn(self.scr)
-        self.widgets['start_stop_btn'].set_size(100, 40)
+        # Start/Stop button (bottom right, with play/stop icons and contour)
+        self.widgets['start_stop_btn'] = lv.button(self.scr)
+        self.widgets['start_stop_btn'].set_size(60, 60)
+        self.widgets['start_stop_btn'].align(lv.ALIGN.BOTTOM_RIGHT, -20, -20)
+        self.widgets['start_stop_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)
+        self.widgets['start_stop_btn'].set_style_border_width(2, 0)  # Add contour
+        self.widgets['start_stop_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Darker green border
+        self.widgets['start_stop_btn'].set_style_radius(30, 0)  # Make it circular
         self.widgets['start_stop_label'] = lv.label(self.widgets['start_stop_btn'])
         self.widgets['start_stop_label'].center()
-        self.widgets['start_stop_btn'].align(lv.ALIGN.TOP_MID, 0, button_y)
         self.widgets['start_stop_btn'].add_event_cb(self.on_start_stop_click, lv.EVENT.CLICKED, None)
         self.update_start_stop_button()
 
-        # Increase buttons
-        self.widgets['inc_10_btn'] = lv.btn(self.scr)
-        self.widgets['inc_10_btn'].set_size(80, 40)
-        inc_10_label = lv.label(self.widgets['inc_10_btn'])
-        inc_10_label.set_text("+10")
-        inc_10_label.center()
-        self.widgets['inc_10_btn'].align(lv.ALIGN.TOP_RIGHT, -140, button_y)
-        self.widgets['inc_10_btn'].add_event_cb(lambda e: self.adjust_rpm(10), lv.EVENT.CLICKED, None)
-
-        self.widgets['inc_100_btn'] = lv.btn(self.scr)
-        self.widgets['inc_100_btn'].set_size(80, 40)
-        inc_100_label = lv.label(self.widgets['inc_100_btn'])
-        inc_100_label.set_text("+100")
-        inc_100_label.center()
-        self.widgets['inc_100_btn'].align_to(self.widgets['inc_10_btn'], lv.ALIGN.OUT_RIGHT_MID, 10, 0)
-        self.widgets['inc_100_btn'].add_event_cb(lambda e: self.adjust_rpm(100), lv.EVENT.CLICKED, None)
-
     def update_rpm_display(self):
         """Update the RPM display"""
-        self.widgets['rpm_display'].set_text(f"{self.current_rpm} RPM")
-        self.widgets['rpm_slider'].set_value(self.current_rpm)
-
-    def update_status_display(self):
-        """Update simulation status display"""
-        if self.simulation_active:
-            self.widgets['status_label'].set_text("Simulation: ACTIVE")
-            self.widgets['status_label'].set_style_text_color(lv.color_hex(0x4CAF50), 0)  # Green
-        else:
-            self.widgets['status_label'].set_text("Simulation: STOPPED")
-            self.widgets['status_label'].set_style_text_color(lv.color_hex(0xF44336), 0)  # Red
+        if 'rpm_display' in self.widgets:
+            self.widgets['rpm_display'].set_text(f"{self.current_rpm} RPM")
+        if 'rpm_slider' in self.widgets:
+            self.widgets['rpm_slider'].set_value(self.current_rpm, False)
 
     def update_start_stop_button(self):
-        """Update start/stop button text"""
+        """Update start/stop button with play/stop icons"""
         if self.simulation_active:
-            self.widgets['start_stop_label'].set_text("STOP")
+            self.widgets['start_stop_label'].set_text(lv.SYMBOL.STOP)  # Stop icon
             self.widgets['start_stop_btn'].set_style_bg_color(lv.color_hex(0xF44336), 0)  # Red
+            self.widgets['start_stop_btn'].set_style_border_color(lv.color_hex(0xC62828), 0)  # Darker red border
         else:
-            self.widgets['start_stop_label'].set_text("START")
+            self.widgets['start_stop_label'].set_text(lv.SYMBOL.PLAY)  # Play icon
             self.widgets['start_stop_btn'].set_style_bg_color(lv.color_hex(0x4CAF50), 0)  # Green
+            self.widgets['start_stop_btn'].set_style_border_color(lv.color_hex(0x2E7D32), 0)  # Darker green border
 
-    def adjust_rpm(self, delta):
-        """Adjust RPM by delta amount"""
-        try:
-            new_rpm = max(0, min(8000, self.current_rpm + delta))
-            self.current_rpm = new_rpm
-            self.update_rpm_display()
-            
-            # Update ECU manager if simulation is active
-            if self.simulation_active and app_state.ecu_manager:
-                app_state.ecu_manager.simulate_rpm(self.current_rpm)
-                
-        except Exception as e:
-            error_handler.handle_error(e, "Failed to adjust RPM")
+
 
     def on_slider_change(self, event):
         """Handle slider value change"""
         try:
-            self.current_rpm = event.target.get_value()
-            self.update_rpm_display()
-            
-            # Update ECU manager if simulation is active
-            if self.simulation_active and app_state.ecu_manager:
-                app_state.ecu_manager.simulate_rpm(self.current_rpm)
-                
+            # Get the slider widget directly from our widgets dict
+            slider = self.widgets.get('rpm_slider')
+            if slider:
+                # Get the current value from the slider
+                new_rpm = slider.get_value()
+
+                # Update the current RPM and display
+                self.current_rpm = new_rpm
+                self.update_rpm_display()
+
+                # Update ECU simulation if active
+                if self.simulation_active and app_state.ecu_manager:
+                    app_state.ecu_manager.simulate_rpm(self.current_rpm)
+
         except Exception as e:
-            error_handler.handle_error(e, "Failed to update RPM from slider")
+            # Print error for debugging but don't show dialog
+            print(f"Slider update error: {e}")
 
     def on_start_stop_click(self, event):
         """Handle start/stop button click"""
@@ -179,11 +137,10 @@ class RPMSimulatorScreen(BaseScreen):
             if app_state.ecu_manager:
                 app_state.ecu_manager.simulate_rpm(self.current_rpm)
                 app_state.ecu_manager.start_simulation()
-                
+
             self.simulation_active = True
-            self.update_status_display()
             self.update_start_stop_button()
-            
+
         except Exception as e:
             error_handler.handle_error(e, "Failed to start simulation")
 
@@ -192,11 +149,10 @@ class RPMSimulatorScreen(BaseScreen):
         try:
             if app_state.ecu_manager:
                 app_state.ecu_manager.stop_simulation()
-                
+
             self.simulation_active = False
-            self.update_status_display()
             self.update_start_stop_button()
-            
+
         except Exception as e:
             error_handler.handle_error(e, "Failed to stop simulation")
 

@@ -63,25 +63,16 @@ class ErrorHandler:
             if not current_screen:
                 return
             
-            # Create modal dialog
-            dialog = lv.msgbox(current_screen)
-            
-            # Set title based on severity
-            if severity == "CRITICAL":
-                dialog.set_title("Critical Error")
-            else:
-                dialog.set_title("Error")
-            
+            # Create modal dialog with LVGL 9.x API
+            title_text = "Critical Error" if severity == "CRITICAL" else "Error"
+
             # Set message text
             if context:
                 message = f"{context}\n\nError: {str(error)}"
             else:
                 message = f"Error: {str(error)}"
-            
-            dialog.set_text(message)
-            dialog.add_button("OK")
-            
-            # Center the dialog
+
+            dialog = lv.msgbox(current_screen, title_text, message, ["OK"], False)
             dialog.center()
             
         except Exception as e:
@@ -101,10 +92,7 @@ class ErrorHandler:
             if not current_screen:
                 return
             
-            dialog = lv.msgbox(current_screen)
-            dialog.set_title(title)
-            dialog.set_text(message)
-            dialog.add_button("OK")
+            dialog = lv.msgbox(current_screen, title, message, ["OK"], False)
             dialog.center()
             
         except Exception as e:
@@ -123,10 +111,7 @@ class ErrorHandler:
             if not current_screen:
                 return
             
-            dialog = lv.msgbox(current_screen)
-            dialog.set_title(title)
-            dialog.set_text(message)
-            dialog.add_button("OK")
+            dialog = lv.msgbox(current_screen, title, message, ["OK"], False)
             dialog.center()
             
         except Exception as e:

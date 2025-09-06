@@ -44,13 +44,24 @@ def main():
     # Initialize hardware simulation
     initialize_hardware_simulation()
 
-    # Import and display main screen
+    # Import and register screens
     from screens.main_screen import MainScreen
+    from screens.system_selection import SystemSelectionScreen
+    from utils.navigation_manager import nav_manager
 
-    # Create main screen
-    main_scr = lv.obj()
+    # Register screens with navigation manager
+    nav_manager.register_screen("system_selection", SystemSelectionScreen)
+
+    # Get the active screen and use it directly
+    main_scr = lv.screen_active()
+    # Remove all padding and borders from the root screen
+    main_scr.set_style_pad_all(0, 0)
+    main_scr.set_style_border_width(0, 0)
+    main_scr.set_style_radius(0, 0)
+    main_scr.set_style_margin_all(0, 0)  # Remove margins
+    # Set background to match the toolbar color to eliminate white borders
+    main_scr.set_style_bg_color(lv.color_hex(0x2196F3), 0)
     main_screen = MainScreen(main_scr)
-    lv.screen_load(main_scr)
 
     print("Main screen loaded - ECU Diagnostic Tool Simulator ready")
     print("Use mouse to interact with the interface")

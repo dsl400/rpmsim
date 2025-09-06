@@ -51,7 +51,17 @@ class DataManager:
                 self.error_handler.handle_error(e, f"Failed to load systems from {self.systems_file}")
                 self._cache['systems'] = {"systems": []}
         return self._cache['systems']
-    
+
+    def get_systems(self):
+        """
+        Get list of all systems
+
+        Returns:
+            list: List of system definitions
+        """
+        systems_data = self.load_systems()
+        return systems_data.get('systems', [])
+
     def save_user_settings(self, settings):
         """
         Save user settings with atomic write operation
