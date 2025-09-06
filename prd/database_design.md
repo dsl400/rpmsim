@@ -115,7 +115,7 @@ This document defines the database design and data management strategy for the E
 }
 ```
 
-#### 3.1.3 DTC Tool Configuration
+#### 3.1.3 DTC Tool Configuration (Phase 2)
 ```json
 {
   "id": "dtc_manager_001",
@@ -137,6 +137,7 @@ This document defines the database design and data management strategy for the E
   }
 }
 ```
+*Note: DTC functionality schema prepared for Phase 2 implementation*
 
 ### 3.2 User Settings Schema
 

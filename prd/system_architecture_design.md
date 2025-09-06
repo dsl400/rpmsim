@@ -259,7 +259,7 @@ class ECUManager:
     def stop_simulation(self) -> None
 ```
 
-#### 3.4.3 DTC Management
+#### 3.4.3 DTC Management (Phase 2)
 ```python
 class DTCManager:
     def read_dtc(self) -> List[dict]
@@ -267,6 +267,7 @@ class DTCManager:
     def get_dtc_definitions(self) -> dict
     def format_dtc_display(self, dtcs: List[dict]) -> str
 ```
+*Note: DTC functionality will be implemented in Phase 2*
 
 ## 4. System Integration
 

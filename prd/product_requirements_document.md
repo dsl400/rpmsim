@@ -46,12 +46,12 @@ A portable diagnostic device for automotive ECU (Electronic Control Unit) system
 - **REQ-007:** Toggle button to enable/disable sensor output for cam and crank
 - **REQ-008:** Access button to RPM Sensor Configuration Editor
 
-##### 4.2.2 Diagnostic Trouble Codes (DTC)
-- **REQ-009:** Clear DTC functionality (Future Release)
-- **REQ-010:** Read DTC functionality (Future Release)
+##### 4.2.2 Diagnostic Trouble Codes (DTC) - Future Release
+- **REQ-009:** Clear DTC functionality (Phase 2)
+- **REQ-010:** Read DTC functionality (Phase 2)
 
-##### 4.2.3 Live Data Monitoring
-- **REQ-011:** Read Live Data functionality (Future Release)
+##### 4.2.3 Live Data Monitoring - Future Release
+- **REQ-011:** Read Live Data functionality (Phase 2)
 
 #### 4.3 User Interface Requirements
 
@@ -162,13 +162,13 @@ A portable diagnostic device for automotive ECU (Electronic Control Unit) system
 
 ### 7. Future Enhancements
 
-#### 7.1 Phase 2 Features
-- Complete DTC management (Clear/Read functionality)
-- Live data monitoring and logging
+#### 7.1 Phase 2 Features (Next Version)
+- **DTC Management**: Complete Clear/Read DTC functionality
+- **Live Data Monitoring**: Real-time ECU parameter display and logging
 - Advanced sensor simulation capabilities
 - Multi-language support
 
-#### 7.2 Phase 3 Features
+#### 7.2 Phase 3 Features (Future Versions)
 - Cloud-based system database updates
 - Remote diagnostic capabilities
 - Advanced reporting and analytics

@@ -185,10 +185,10 @@ class ECUManager:
 
 ### 2.3 DTC Manager API
 
-#### 2.3.1 DTCManager Class
+#### 2.3.1 DTCManager Class (Phase 2 Implementation)
 ```python
 class DTCManager:
-    """Diagnostic Trouble Code management interface"""
+    """Diagnostic Trouble Code management interface - Phase 2"""
     
     def __init__(self) -> None:
         """Initialize DTC manager"""
@@ -208,6 +208,8 @@ class DTCManager:
         
         Raises:
             DTCError: If read operation fails
+        
+        Note: Implementation planned for Phase 2
         """
         pass
     
