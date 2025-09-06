@@ -15,7 +15,7 @@ mouse = lv.sdl_mouse_create()
 
 # Create a screen
 scr = lv.obj()
-lv.scr_load(scr)
+lv.screen_load(scr)
 
 # Create a label for counter
 counter_label = lv.label(scr)
@@ -36,7 +36,7 @@ def decrement_counter(evt):
     counter_label.set_text(str(counter))
 
 # Create + button
-plus_btn = lv.btn(scr)
+plus_btn = lv.button(scr)
 plus_btn.set_size(80, 50)
 plus_btn.align(lv.ALIGN.CENTER, 100, 0)
 plus_btn.add_event_cb(increment_counter, lv.EVENT.CLICKED, None)
@@ -46,7 +46,7 @@ plus_label.set_text("+")
 plus_label.center()
 
 # Create - button
-minus_btn = lv.btn(scr)
+minus_btn = lv.button(scr)
 minus_btn.set_size(80, 50)
 minus_btn.align(lv.ALIGN.CENTER, -100, 0)
 minus_btn.add_event_cb(decrement_counter, lv.EVENT.CLICKED, None)
