@@ -32,7 +32,8 @@
 rpmsim/
 ├── src/                    # Main application source
 │   ├── boot.py            # Boot process (immutable)
-│   ├── main.py            # Application entry point (immutable)
+│   ├── main.py            # Hardware mode entry point
+│   ├── main_sim.py        # Simulation mode entry point
 │   ├── display.py         # Hardware display config (immutable)
 │   ├── fs_driver.py       # File system driver
 │   ├── screens/           # UI screen modules
@@ -47,7 +48,12 @@ rpmsim/
 │   │   ├── ecu_manager.py
 │   │   ├── dtc_manager.py
 │   │   ├── io.py
-│   │   └── can.py
+│   │   ├── can.py
+│   │   └── sim/           # Hardware simulation modules
+│   │       ├── __init__.py
+│   │       ├── hardware_sim.py
+│   │       ├── wifi_sim.py
+│   │       └── ecu_sim.py
 │   ├── db/               # Database and configuration
 │   │   ├── systems.json
 │   │   └── user_settings.json
@@ -572,6 +578,137 @@ class TestRunner:
         print(f"Passed: {self.tests_passed}")
         print(f"Failed: {self.tests_failed}")
 ```
+
+## 8. Simulation Development
+
+### 8.1 Simulation Environment Setup
+
+The ECU Diagnostic Tool includes a comprehensive simulation environment for development and testing without physical hardware.
+
+#### 8.1.1 Simulation Prerequisites
+```bash
+# Required for simulation
+- MpSimulator-x86_64.AppImage (provided in sim_app/)
+- SDL2 libraries (included in simulator)
+- Linux/Windows/macOS development environment
+```
+
+#### 8.1.2 Starting Simulation Mode
+```bash
+# Navigate to project root
+cd rpmsim/
+
+# Start simulation mode
+./sim_app/MpSimulator-x86_64.AppImage src/main_sim.py
+
+# Run specific tests
+./sim_app/MpSimulator-x86_64.AppImage test/integrated_test.py
+```
+
+### 8.2 Hardware Simulation Components
+
+#### 8.2.1 WiFi Simulation (src/hardware/sim/wifi_sim.py)
+```python
+from hardware.sim.wifi_sim import WiFiSimulator
+
+# Initialize WiFi simulation
+wifi_sim = WiFiSimulator()
+wifi_sim.initialize()
+
+# Simulate network scanning
+networks = wifi_sim.scan_networks()
+
+# Simulate connection
+success = wifi_sim.connect("TestNetwork", "password123")
+```
+
+#### 8.2.2 ECU Simulation (src/hardware/sim/ecu_sim.py)
+```python
+from hardware.sim.ecu_sim import ECUSimulator
+
+# Initialize ECU simulation
+ecu_sim = ECUSimulator()
+ecu_sim.initialize()
+
+# Start RPM simulation
+ecu_sim.start_simulation()
+ecu_sim.set_target_rpm(2500)
+
+# Get live data
+live_data = ecu_sim.get_live_data()
+```
+
+### 8.3 Development Workflow
+
+#### 8.3.1 Simulation vs Hardware Mode
+```python
+# Entry points
+main.py      # Hardware mode (ESP32S3)
+main_sim.py  # Simulation mode (Development)
+
+# Hardware abstraction
+hardware/wifi_manager.py    # Real WiFi hardware
+hardware/sim/wifi_sim.py    # WiFi simulation
+
+hardware/ecu_manager.py     # Real ECU hardware
+hardware/sim/ecu_sim.py     # ECU simulation
+```
+
+#### 8.3.2 Testing in Simulation
+```bash
+# Run comprehensive tests
+./sim_app/MpSimulator-x86_64.AppImage test/comprehensive_test.py
+
+# Run visual UI tests
+./sim_app/MpSimulator-x86_64.AppImage test/visual_test.py
+
+# Run integration tests
+./sim_app/MpSimulator-x86_64.AppImage test/integrated_test.py
+```
+
+### 8.4 Simulation Features
+
+#### 8.4.1 Realistic Hardware Behavior
+- WiFi network scanning with signal strength variation
+- ECU live data simulation with realistic automotive parameters
+- Connection success/failure simulation based on conditions
+- Hardware fault injection for error testing
+
+#### 8.4.2 Interactive Development
+- Real-time UI interaction with mouse simulation
+- Live parameter adjustment during simulation
+- Debug output and logging
+- Performance monitoring
+
+#### 8.4.3 Testing Capabilities
+- Automated test execution in simulation environment
+- UI interaction testing without physical hardware
+- Error scenario simulation and recovery testing
+- Performance benchmarking
+
+### 8.5 Deployment Transition
+
+#### 8.5.1 From Simulation to Hardware
+```bash
+# 1. Test in simulation
+./sim_app/MpSimulator-x86_64.AppImage src/main_sim.py
+
+# 2. Validate all functionality
+./sim_app/MpSimulator-x86_64.AppImage test/comprehensive_test.py
+
+# 3. Flash to hardware
+cd firmware/
+./flash.sh
+
+# 4. Hardware automatically runs src/main.py
+```
+
+#### 8.5.2 Code Compatibility
+The same application code runs in both simulation and hardware modes:
+- UI screens work identically in both environments
+- Hardware abstraction layer provides seamless transition
+- Configuration and data management remain consistent
+- Error handling and recovery work in both modes
 
 ---
 

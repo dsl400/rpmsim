@@ -14,6 +14,8 @@
 
 This document defines the system architecture and technical design for the ECU Diagnostic Tool, a portable automotive diagnostic device built on ESP32S3 hardware with MicroPython runtime. The system provides comprehensive ECU diagnostic capabilities including RPM simulation, DTC management, and live data monitoring through a touchscreen interface with WiFi connectivity.
 
+The architecture supports both hardware deployment and simulation modes, enabling development and testing without physical hardware.
+
 ## 2. System Overview
 
 ### 2.1 High-Level Architecture
@@ -46,6 +48,13 @@ The ECU Diagnostic Tool follows a layered architecture pattern with clear separa
 │  └─────────────┘ └─────────────┘ └─────────────────────────┘ │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ │
 │  │ I/O Manager │ │ CAN Manager │ │   File System Mgr       │ │
+│  └─────────────┘ └─────────────┘ └─────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                   Hardware/Simulation Layer                 │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ │
+│  │ Real HW     │ │ Simulation  │ │   Development Mode      │ │
+│  │ (ESP32S3)   │ │ (SDL/Mock)  │ │     Selection           │ │
 │  └─────────────┘ └─────────────┘ └─────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
@@ -470,6 +479,100 @@ tests/
 - Automated backup procedures
 - Performance optimization routines
 - Security update protocols
+
+## 11. Simulation Architecture
+
+### 11.1 Simulation Overview
+The ECU Diagnostic Tool includes a comprehensive simulation environment that enables development and testing without physical hardware. The simulation architecture mirrors the hardware architecture while providing realistic behavior simulation.
+
+### 11.2 Simulation Components
+
+#### 11.2.1 Hardware Simulation Layer
+```
+src/hardware/sim/
+├── __init__.py
+├── hardware_sim.py      # Main simulation coordinator
+├── wifi_sim.py          # WiFi hardware simulation
+├── ecu_sim.py          # ECU hardware simulation
+└── can_sim.py          # CAN bus simulation (future)
+```
+
+#### 11.2.2 Entry Points
+- **main.py**: Hardware mode entry point for ESP32S3 deployment
+- **main_sim.py**: Simulation mode entry point for development
+
+### 11.3 Simulation Features
+
+#### 11.3.1 WiFi Simulation
+- Network scanning with realistic signal strengths
+- Connection success/failure simulation based on signal quality
+- Network database with configurable access points
+- Connection state management and status reporting
+
+#### 11.3.2 ECU Simulation
+- Real-time RPM simulation with configurable parameters
+- Live data generation with realistic automotive parameters
+- DTC injection and management for testing
+- Sensor signal pattern generation (crankshaft/camshaft)
+- Hardware fault simulation for error testing
+
+#### 11.3.3 Display Simulation
+- SDL-based window rendering (800x480 resolution)
+- Mouse input simulation for touchscreen interaction
+- Real-time UI updates and event handling
+- Window management and title display
+
+### 11.4 Development Workflow
+
+#### 11.4.1 Simulation Mode Usage
+```bash
+# Start simulation mode
+./sim_app/MpSimulator-x86_64.AppImage src/main_sim.py
+
+# Run specific tests
+./sim_app/MpSimulator-x86_64.AppImage test/integrated_test.py
+```
+
+#### 11.4.2 Hardware Mode Deployment
+```bash
+# Flash firmware to ESP32S3
+cd firmware
+./flash.sh
+
+# Main entry point automatically loads
+# src/main.py on hardware boot
+```
+
+### 11.5 Simulation Configuration
+
+#### 11.5.1 Hardware Simulation Settings
+```python
+# WiFi simulation configuration
+wifi_config = {
+    "networks": [
+        {"ssid": "TestNetwork", "signal": -45, "security": "WPA2"},
+        {"ssid": "OpenNetwork", "signal": -67, "security": "Open"}
+    ],
+    "connection_success_rate": 0.85
+}
+
+# ECU simulation configuration
+ecu_config = {
+    "rpm_range": [0, 8000],
+    "update_interval": 100,  # ms
+    "sensor_patterns": {
+        "crank": {"degrees_per_tooth": 6, "missing_teeth": 2},
+        "cam": {"degrees_per_tooth": 12}
+    }
+}
+```
+
+### 11.6 Testing Integration
+The simulation environment integrates with the testing framework to provide:
+- Automated UI testing with simulated user interactions
+- Hardware behavior validation without physical devices
+- Performance testing under various simulated conditions
+- Error scenario testing with controlled fault injection
 
 ---
 

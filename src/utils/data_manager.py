@@ -10,20 +10,29 @@ from utils.error_handler import ErrorHandler
 class DataManager:
     """Centralized data management for the ECU Diagnostic Tool"""
     
-    def __init__(self, base_path="/db"):
+    def __init__(self, base_path="src/db"):
         self.base_path = base_path
         self.systems_file = f"{base_path}/db.json"
         self.user_settings_file = f"{base_path}/user_settings.json"
         self._cache = {}
         self.error_handler = ErrorHandler()
-        
-        # Ensure database directory exists
-        self._ensure_db_directory()
+
+        # Ensure database directory exists (skip in simulation if permission issues)
+        try:
+            self._ensure_db_directory()
+        except Exception as e:
+            print(f"Warning: Could not ensure db directory: {e}")
+            # Continue anyway - files might already exist
     
     def _ensure_db_directory(self):
         """Ensure the database directory exists"""
         try:
-            os.makedirs(self.base_path, exist_ok=True)
+            # MicroPython compatible directory creation
+            try:
+                os.stat(self.base_path)
+            except OSError:
+                # Directory doesn't exist, create it
+                os.mkdir(self.base_path)
         except OSError as e:
             self.error_handler.handle_error(e, "Failed to create database directory", "CRITICAL")
     

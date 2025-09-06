@@ -26,7 +26,7 @@ class MainScreen(BaseScreen):
         self.widgets['toolbar'].set_style_radius(0, 0)
 
         # Create left side menu button
-        self.widgets['menu_btn'] = lv.btn(self.widgets['toolbar'])
+        self.widgets['menu_btn'] = lv.button(self.widgets['toolbar'])
         self.widgets['menu_btn'].set_size(50, 50)
         self.widgets['menu_btn'].align(lv.ALIGN.LEFT_MID, 5, 0)
         self.widgets['menu_btn'].set_style_bg_color(lv.color_hex(0x1976D2), 0)
@@ -45,7 +45,7 @@ class MainScreen(BaseScreen):
         self.update_title()
 
         # Create right side wifi status icon
-        self.widgets['wifi_icon'] = lv.btn(self.widgets['toolbar'])
+        self.widgets['wifi_icon'] = lv.button(self.widgets['toolbar'])
         self.widgets['wifi_icon'].set_size(50, 50)
         self.widgets['wifi_icon'].align(lv.ALIGN.RIGHT_MID, -5, 0)
         self.widgets['wifi_icon'].set_style_bg_color(lv.color_hex(0x1976D2), 0)
@@ -154,7 +154,7 @@ class MainScreen(BaseScreen):
             btn_y = 50
 
             # Select ECU button
-            select_btn = lv.btn(menu_container)
+            select_btn = lv.button(menu_container)
             select_btn.set_size(250, 40)
             select_btn.align(lv.ALIGN.TOP_MID, 0, btn_y)
             select_label = lv.label(select_btn)
@@ -163,7 +163,7 @@ class MainScreen(BaseScreen):
             select_btn.add_event_cb(lambda e: self.on_menu_select("select_ecu", menu_modal), lv.EVENT.CLICKED, None)
 
             # Check for Updates button
-            update_btn = lv.btn(menu_container)
+            update_btn = lv.button(menu_container)
             update_btn.set_size(250, 40)
             update_btn.align(lv.ALIGN.TOP_MID, 0, btn_y + 50)
             update_label = lv.label(update_btn)
@@ -172,7 +172,7 @@ class MainScreen(BaseScreen):
             update_btn.add_event_cb(lambda e: self.on_menu_select("updates", menu_modal), lv.EVENT.CLICKED, None)
 
             # Close button
-            close_btn = lv.btn(menu_container)
+            close_btn = lv.button(menu_container)
             close_btn.set_size(100, 30)
             close_btn.align(lv.ALIGN.BOTTOM_RIGHT, -10, -10)
             close_label = lv.label(close_btn)

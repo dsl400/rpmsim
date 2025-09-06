@@ -1,35 +1,66 @@
-import sys
-import os
+"""
+Main entry point for ECU Diagnostic Tool (Hardware Mode)
+Initializes the environment, hardware, and displays the main screen
+"""
+
 import lvgl as lv
 import task_handler
-
-# Initialize LVGL
-lv.init()
-
-# Get the directory of this file (MicroPython doesn't have os.path)
-current_dir = os.getcwd()
-generated_dir = current_dir + "/generated"
-
-# Add generated directory to sys.path
-sys.path.insert(0, generated_dir)
-
-fs_drv = lv.fs_drv_t()
-fs_driver.fs_register(fs_drv, 'Z')
-
+import fs_driver
 import display
 
-import main_screen
+def initialize_environment():
+    """Initialize the basic environment"""
+    # Initialize LVGL
+    lv.init()
 
-task_handler.TaskHandler()
+    # Initialize file system driver
+    fs_drv = lv.fs_drv_t()
+    fs_driver.fs_register(fs_drv, 'Z')
 
-# Display the appropriate initial screen based on device configuration
-main_screen.display_initial_screen()
+    # Initialize display hardware
+    display.init()
 
+    print("Environment initialized for hardware mode")
 
+def initialize_hardware():
+    """Initialize real hardware modules"""
+    from hardware.wifi_manager import WiFiManager
+    from hardware.ecu_manager import ECUManager
 
+    # Initialize hardware managers
+    wifi_manager = WiFiManager()
+    ecu_manager = ECUManager()
 
+    # Initialize hardware
+    wifi_manager.initialize()
+    ecu_manager.initialize()
 
-# try:
-#     gui_guider.main()
-# except Exception as e:
-#     print("Application crashed:", e)
+    print("Hardware modules initialized")
+    return wifi_manager, ecu_manager
+
+def main():
+    """Main application entry point"""
+    print("Starting ECU Diagnostic Tool (Hardware Mode)...")
+
+    # Initialize environment
+    initialize_environment()
+
+    # Initialize hardware
+    wifi_manager, ecu_manager = initialize_hardware()
+
+    # Initialize task handler
+    task_handler.TaskHandler()
+
+    # Import and display main screen
+    from screens.main_screen import MainScreen
+
+    # Create main screen
+    main_scr = lv.obj()
+    main_screen = MainScreen(main_scr)
+    lv.screen_load(main_scr)
+
+    print("Main screen loaded - ECU Diagnostic Tool ready")
+
+if __name__ == "__main__":
+    main()
+
