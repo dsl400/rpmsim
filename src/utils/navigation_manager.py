@@ -53,8 +53,8 @@ class NavigationManager:
                 self.screen_stack.append(self.current_screen)
             
             # Create new screen
-            scr = lv.screen()
-            screen_instance = self.screens[screen_name](scr, **kwargs)
+            scr = lv.obj()
+            screen_instance = self.screens[screen_name](scr)
             
             # Call on_enter if available
             if hasattr(screen_instance, 'on_enter'):

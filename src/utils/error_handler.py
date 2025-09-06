@@ -48,14 +48,14 @@ class ErrorHandler:
         if severity in ["ERROR", "CRITICAL"]:
             self.show_error_dialog(error, context, severity)
     
-    def show_error_dialog(self, error, context, severity):
+    def show_error_dialog(self, error, context="", severity="ERROR"):
         """
         Show error dialog to user
-        
+
         Args:
             error (Exception or str): Error object or message
-            context (str): Additional context
-            severity (str): Error severity level
+            context (str): Additional context (optional)
+            severity (str): Error severity level (optional)
         """
         try:
             # Get current active screen

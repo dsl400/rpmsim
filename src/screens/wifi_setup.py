@@ -24,7 +24,7 @@ class WifiSetupScreen(BaseScreen):
         self.widgets['title'] = lv.label(self.scr)
         self.widgets['title'].set_text("WiFi Setup")
         self.widgets['title'].align(lv.ALIGN.TOP_MID, 0, 20)
-        self.widgets['title'].set_style_text_font(lv.font_default(), 0)
+        # Use default font (remove explicit font setting)
 
         # Add description text
         self.widgets['description'] = lv.label(self.scr)
@@ -38,7 +38,7 @@ class WifiSetupScreen(BaseScreen):
         self.widgets['network_list'].align(lv.ALIGN.TOP_MID, 0, 80)
 
         # Add button to scan for networks
-        self.widgets['scan_btn'] = lv.btn(self.scr)
+        self.widgets['scan_btn'] = lv.button(self.scr)
         self.widgets['scan_btn'].set_size(150, 40)
         scan_label = lv.label(self.widgets['scan_btn'])
         scan_label.set_text("Scan Networks")
@@ -60,7 +60,7 @@ class WifiSetupScreen(BaseScreen):
         self.widgets['password_input'].set_placeholder_text("Enter WiFi password")
 
         # Create connect button
-        self.widgets['connect_btn'] = lv.btn(self.scr)
+        self.widgets['connect_btn'] = lv.button(self.scr)
         self.widgets['connect_btn'].set_size(150, 50)
         connect_label = lv.label(self.widgets['connect_btn'])
         connect_label.set_text("Connect")
@@ -71,7 +71,7 @@ class WifiSetupScreen(BaseScreen):
         self.widgets['connect_btn'].add_event_cb(self.on_connect_click, lv.EVENT.CLICKED, None)
 
         # Skip button for testing
-        self.widgets['skip_btn'] = lv.btn(self.scr)
+        self.widgets['skip_btn'] = lv.button(self.scr)
         self.widgets['skip_btn'].set_size(100, 40)
         skip_label = lv.label(self.widgets['skip_btn'])
         skip_label.set_text("Skip")
